@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Team Orientation (NTO)</title>
+    <style>
+        /* --- FONT LOADING --- */
+        @font-face { font-family: 'PizzaPress'; src: url('PizzaPress-Regular.otf') format('opentype'); font-weight: normal; }
+        @font-face { font-family: 'OneDotCd-Bold'; src: url('OneDotCd-Bold.ttf') format('truetype'); font-weight: bold; }
+        @font-face { font-family: 'OneDotCd'; src: url('OneDotCd.ttf') format('truetype'); font-weight: normal; }
+
+        :root {
+            --brand-red: #ff0000;
+            --brand-blue: #0090e2;
+            --dark-blue: #005c91;
+            --crust-light: #faf2e9;
+            --crust-med: #f0decc;
+            --crust-deep: #603913;
+            --alert-bg: #fff3cd;
+            --alert-text: #856404;
+            --alert-border: #ffeeba;
+        }
+
+        body {
+            font-family: 'OneDotCd', sans-serif;
+            background-color: var(--crust-light);
+            color: var(--crust-deep);
+            padding: 2rem;
+        }
+
+        /* --- HERO INSTRUCTION BLOCK --- */
+        .instructions-hero {
+            background-color: white;
+            border-left: 8px solid var(--brand-red);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 0 auto 2rem auto;
+            max-width: 1000px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'PizzaPress', serif;
+            font-size: 2.5rem;
+            color: var(--brand-blue);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .instruction-item h4 {
+            font-family: 'OneDotCd-Bold';
+            color: var(--brand-red);
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .instruction-item ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            list-style-type: square;
+        }
+
+        .instruction-item li {
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        /* Header / Controls */
+        .header-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .refresh-btn {
+            background: none;
+            border: none;
+            color: var(--brand-blue);
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid var(--dark-blue);
+            color: var(--dark-blue);
+            font-family: 'OneDotCd-Bold';
+            border-radius: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .filter-btn.active {
+            background: var(--dark-blue);
+            color: white;
+        }
+
+        /* Grid Layout */
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- THE CARD --- */
+        .class-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border-top: 6px solid var(--brand-blue);
+            transition: transform 0.2s;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .class-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+
+        .card-body { padding: 1.5rem; flex-grow: 1; }
+
+        .class-type-badge {
+            display: inline-block;
+            font-family: 'OneDotCd-Bold';
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: var(--crust-med);
+            color: var(--crust-deep);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Date Block Styling */
+        .date-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.8rem;
+        }
+        .day-box {
+            background: var(--brand-blue);
+            color: white;
+            font-family: 'OneDotCd-Bold';
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+        .time-text {
+            color: var(--dark-blue);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        h3 {
+            font-family: 'OneDotCd-Bold';
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: var(--crust-deep);
+            line-height: 1.2;
+        }
+
+        .details {
+            font-size: 1rem;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 1rem;
+        }
+
+        /* ROSTER SECTION */
+        .roster-box {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            border: 1px solid #eee;
+        }
+        .roster-header {
+            font-family: 'OneDotCd-Bold';
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            display: block;
+        }
+        .roster-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--dark-blue);
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .roster-list li {
+            padding: 2px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .roster-empty {
+            font-style: italic;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-left { display: flex; flex-direction: column; gap: 2px; }
+        .slots { font-size: 0.9rem; color: #666; font-weight: bold; }
+        
+        .signup-btn {
+            background-color: var(--brand-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'OneDotCd-Bold';
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+        .signup-btn:hover { background-color: #d60000; }
+        .signup-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        #loading-msg { text-align: center; font-style: italic; color: #666; margin-top: 2rem; }
+
+    </style>
+</head>
+<body>
+
+    <!-- HERO INSTRUCTION BLOCK -->
+    <div class="instructions-hero">
+        <h1 class="hero-title">New Hire Orientation</h1>
+        <div class="hero-grid">
+            <div class="instruction-item">
+                <h4>📄 What to Bring</h4>
+                <ul>
+                    <li>Two forms of ID (Driver's License + Social Security Card OR Birth Certificate).</li>
+                    <li>Bank info for Direct Deposit (Voided Check or Bank Letter).</li>
+                </ul>
+            </div>
+            <div class="instruction-item">
+                <h4>👕 Dress Code</h4>
+                <ul>
+                    <li>Blue Jeans (No holes/rips).</li>
+                    <li>Non-Slip Shoes are mandatory.</li>
+                    <li>Plain shirt (if you don't have a uniform yet).</li>
+                </ul>
+            </div>
+            <div class="instruction-item">
+                <h4>🚗 Parking</h4>
+                <ul>
+                    <li>Please park in the back of the building.</li>
+                    <li>Enter through the side door marked "Team".</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-controls">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterClasses('all')">All Classes</button>
+            <button class="filter-btn" onclick="filterClasses('McKinney')">McKinney</button>
+            <button class="filter-btn" onclick="filterClasses('Mesquite')">Mesquite</button>
+        </div>
+        <button class="refresh-btn" onclick="fetchClasses()">↻ Refresh Schedule</button>
+    </div>
+
+    <div id="loading-msg">Loading Schedule...</div>
+    <div class="class-grid" id="class-grid">
+        <!-- CARDS WILL APPEAR HERE -->
+    </div>
+
+    <script>
+        // --- CONFIG ---
+        // REPLACE THIS WITH YOUR GOOGLE SCRIPT URL
+        const API_URL = "https://script.google.com/macros/s/AKfycby7wgQnR7shWLeL78Fy4f0g0TD-Ch9NgEpIwYnwpUJZYsXvTv0A95IFBGe5k0shg4owEw/exec";
+        
+        let allData = [];
+
+        window.addEventListener('load', fetchClasses);
+
+        function fetchClasses() {
+            document.getElementById('loading-msg').style.display = 'block';
+            document.getElementById('class-grid').innerHTML = '';
+
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    allData = data;
+                    renderClasses(data);
+                    document.getElementById('loading-msg').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('loading-msg').innerText = "Error loading schedule.";
+                });
+        }
+
+        function renderClasses(data) {
+            const grid = document.getElementById('class-grid');
+            grid.innerHTML = ''; 
+
+            if (data.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; width:100%;">No classes found.</p>';
+                return;
+            }
+            
+            const now = new Date();
+            // Reset "Today" to midnight so we don't accidentally hide today's classes
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            // Calculate 2 Weeks Out
+            const twoWeeksOut = new Date(todayStart);
+            twoWeeksOut.setDate(todayStart.getDate() + 14);
+
+            // Calculate "Yesterday" (for immediate cleanup of old classes)
+            const yesterday = new Date(todayStart);
+            yesterday.setDate(todayStart.getDate() - 1);
+
+            // --- FILTER & SORT ---
+            const processedData = data.filter(cls => {
+                const classDate = new Date(cls.isoDate);
+                
+                // 1. Must be in the future OR today (allow > yesterday)
+                if (classDate < yesterday) return false;
+
+                // 2. Must be within the next 2 weeks
+                if (classDate > twoWeeksOut) return false;
+
+                return true;
+            }).sort((a, b) => {
+                return new Date(a.isoDate) - new Date(b.isoDate);
+            });
+
+            if (processedData.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; width:100%;">No classes scheduled for the next 14 days.</p>';
+                return;
+            }
+
+            // --- RENDER ---
+            processedData.forEach(cls => {
+                const card = document.createElement('div');
+                card.className = `class-card`;
+                
+                const classDate = new Date(cls.isoDate);
+                const dayName = classDate.toLocaleDateString("en-US", { weekday: 'long' });
+                const dateStr = classDate.toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
+                const timeStr = classDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+                // Handle Roster (Expects 'attendees' array in JSON, defaults to empty)
+                const attendees = cls.attendees || [];
+                let rosterHTML = '';
+                if(attendees.length > 0) {
+                    rosterHTML = attendees.map(name => `<li>${formatName(name)}</li>`).join('');
+                } else {
+                    rosterHTML = '<li class="roster-empty">No signups yet</li>';
+                }
+
+                card.innerHTML = `
+                    <div class="card-body">
+                        <span class="class-type-badge">Orientation</span>
+                        
+                        <div class="date-block">
+                            <div class="day-box">${dayName}</div>
+                            <div class="time-text">${dateStr} • ${timeStr}</div>
+                        </div>
+
+                        <h3>${cls.name || "NTO Class"}</h3>
+                        <div class="details">
+                            <span>📍 ${cls.location}</span>
+                            <span>👨‍🏫 Trainer: ${cls.trainer}</span>
+                        </div>
+
+                        <!-- ROSTER SECTION -->
+                        <div class="roster-box">
+                            <span class="roster-header">Who's Going?</span>
+                            <ul class="roster-list">
+                                ${rosterHTML}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="footer-left">
+                            <span class="slots">${cls.spots_total - cls.spots_taken} Spots Left</span>
+                        </div>
+                        <button class="signup-btn" 
+                                onclick="handleSignup('${cls.name}', '${cls.id}', this)"
+                                ${cls.spots_taken >= cls.spots_total ? 'disabled' : ''}>
+                            ${cls.spots_taken >= cls.spots_total ? 'Full' : 'Sign Up'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Helper to protect privacy slightly (John Smith -> John S.)
+        function formatName(fullName) {
+            if(!fullName) return "";
+            const parts = fullName.split(" ");
+            if(parts.length > 1) {
+                return `${parts[0]} ${parts[parts.length-1].charAt(0)}.`;
+            }
+            return fullName;
+        }
+
+        function filterClasses(location) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (location === 'all') {
+                renderClasses(allData);
+            } else {
+                const filtered = allData.filter(c => c.location && c.location.includes(location));
+                renderClasses(filtered);
+            }
+        }
+
+        function handleSignup(className, classId, btnElement) { 
+            const name = prompt("Enter First & Last Name:");
+            if (!name) return;
+            const store = prompt("Enter Store Number:");
+            if (!store) return;
+            const phone = prompt("Enter Phone Number:");
+            if (!phone) return;
+
+            btnElement.disabled = true;
+            btnElement.innerText = "Processing...";
+
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('store', store);
+            formData.append('phone', phone);
+            // 'position' defaulted to NTO for now
+            formData.append('position', 'NTO');       
+            formData.append('className', className);
+            formData.append('classId', classId); 
+
+            fetch(API_URL, {
+                method: "POST",
+                body: formData,
+                mode: 'no-cors' 
+            }).then(() => {
+                alert(`Success! ${name} signed up.`);
+                btnElement.innerText = "Signed Up!";
+                setTimeout(fetchClasses, 1500); 
+            }).catch(err => {
+                alert("Error signing up.");
+                btnElement.disabled = false;
+                btnElement.innerText = "Sign Up";
+            });
+        }
+    </script>
+
+    <!-- SLIM FOOTER -->
+    <div style="text-align: center; padding: 2rem 0; margin-top: 3rem; background-color: var(--dark-blue); color: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; margin-bottom: -2rem;">
+        <p style="margin:0; font-size:0.9rem;">&copy; 2026 Team Wow!</p>
+    </div>
+
+</body>
+</html>
