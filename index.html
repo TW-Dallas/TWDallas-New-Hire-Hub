@@ -17,9 +17,6 @@
             --crust-light: #faf2e9;
             --crust-med: #f0decc;
             --crust-deep: #603913;
-            --alert-bg: #fff3cd;
-            --alert-text: #856404;
-            --alert-border: #ffeeba;
         }
 
         body {
@@ -38,15 +35,13 @@
             margin: 0 auto 2rem auto;
             max-width: 1000px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
         }
 
         .hero-title {
             font-family: 'PizzaPress', serif;
             font-size: 2.5rem;
             color: var(--brand-blue);
-            margin-top: 0;
-            margin-bottom: 1rem;
+            margin: 0 0 1rem 0;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -65,18 +60,27 @@
             text-transform: uppercase;
         }
 
-        .instruction-item ul {
-            margin: 0;
-            padding-left: 1.2rem;
-            list-style-type: square;
-        }
+        .instruction-item ul { margin: 0; padding-left: 1.2rem; list-style-type: square; }
+        .instruction-item li { margin-bottom: 0.3rem; line-height: 1.4; }
 
-        .instruction-item li {
-            margin-bottom: 0.3rem;
-            line-height: 1.4;
+        /* APP BUTTONS */
+        .app-buttons { display: flex; gap: 10px; margin-top: 1rem; }
+        .store-btn {
+            background: #333;
+            color: white;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
         }
+        .store-btn:hover { background: #000; }
+        .store-btn svg { width: 16px; height: 16px; fill: white; }
 
-        /* Header / Controls */
+        /* HEADER & CONTROLS */
         .header-controls {
             display: flex;
             flex-direction: column;
@@ -84,7 +88,6 @@
             margin-bottom: 2rem;
             gap: 1rem;
         }
-
         .refresh-btn {
             background: none;
             border: none;
@@ -94,28 +97,7 @@
             font-size: 0.9rem;
         }
 
-        .filters {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            background: white;
-            border: 2px solid var(--dark-blue);
-            color: var(--dark-blue);
-            font-family: 'OneDotCd-Bold';
-            border-radius: 20px;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-        .filter-btn.active {
-            background: var(--dark-blue);
-            color: white;
-        }
-
-        /* Grid Layout */
+        /* GRID LAYOUT */
         .class-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -124,7 +106,7 @@
             margin: 0 auto;
         }
 
-        /* --- THE CARD --- */
+        /* --- CARD STYLING --- */
         .class-card {
             background: white;
             border-radius: 12px;
@@ -136,9 +118,7 @@
             transition: transform 0.2s;
             animation: fadeIn 0.5s ease-in-out;
         }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .class-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
 
         .card-body { padding: 1.5rem; flex-grow: 1; }
@@ -155,13 +135,7 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Date Block Styling */
-        .date-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 0.8rem;
-        }
+        .date-block { display: flex; align-items: center; gap: 12px; margin-bottom: 0.8rem; }
         .day-box {
             background: var(--brand-blue);
             color: white;
@@ -171,11 +145,7 @@
             font-size: 1.2rem;
             text-transform: uppercase;
         }
-        .time-text {
-            color: var(--dark-blue);
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
+        .time-text { color: var(--dark-blue); font-weight: bold; font-size: 1.1rem; }
 
         h3 {
             font-family: 'OneDotCd-Bold';
@@ -219,15 +189,8 @@
             max-height: 100px;
             overflow-y: auto;
         }
-        .roster-list li {
-            padding: 2px 0;
-            border-bottom: 1px dashed #eee;
-        }
-        .roster-empty {
-            font-style: italic;
-            color: #999;
-            font-size: 0.85rem;
-        }
+        .roster-list li { padding: 2px 0; border-bottom: 1px dashed #eee; }
+        .roster-empty { font-style: italic; color: #999; font-size: 0.85rem; }
 
         .card-footer {
             padding: 1rem 1.5rem;
@@ -257,57 +220,70 @@
         .signup-btn:disabled { background-color: #ccc; cursor: not-allowed; }
 
         #loading-msg { text-align: center; font-style: italic; color: #666; margin-top: 2rem; }
-
     </style>
 </head>
 <body>
 
     <!-- HERO INSTRUCTION BLOCK -->
     <div class="instructions-hero">
-        <h1 class="hero-title">New Hire Orientation</h1>
+        <h1 class="hero-title">Class Requirements</h1>
+        
         <div class="hero-grid">
+            <!-- COL 1: TECH -->
             <div class="instruction-item">
-                <h4>📄 What to Bring</h4>
+                <h4>💻 Device Policy</h4>
                 <ul>
-                    <li>Two forms of ID (Driver's License + Social Security Card OR Birth Certificate).</li>
-                    <li>Bank info for Direct Deposit (Voided Check or Bank Letter).</li>
+                    <li><strong>Laptop or Desktop REQUIRED.</strong></li>
+                    <li>Camera & Microphone must be working.</li>
+                </ul>
+                <div style="margin-top:10px; font-size:0.85rem; color:#666;">Need the App?</div>
+                <div class="app-buttons">
+                    <!-- Apple -->
+                    <a href="https://apps.apple.com/us/app/google-meet/id1013231476" target="_blank" class="store-btn">
+                        <svg viewBox="0 0 384 512"><path d="M318.7 268.7c25.5-13.3 56.1-51.4 56.1-51.4S323.3 194 286.7 210.6c-48 21.8-88 15.6-88 15.6s29.7-54.3 22.9-106c-8.7-66-88-88-88-88s34.3 64.9-5.1 114.7c-33.3 42.1-118 41.5-118 41.5s52.7 21.9 66.5 54c16 37.3-17.6 117.8-17.6 117.8s50.4-23.9 83.1-61.9c36.2-42.3 35.8-93.7 35.8-93.7s57.2 27.2 81.3 62.8c28.1 41.5-1.1 127.3-1.1 127.3s64.9-38.1 71.9-96c2.8-22.9-6.9-46.7-16.7-62.1z"/></svg> iOS
+                    </a>
+                    <!-- Android -->
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.meetings" target="_blank" class="store-btn">
+                        <svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg> Android
+                    </a>
+                </div>
+            </div>
+
+            <!-- COL 2: ENV -->
+            <div class="instruction-item">
+                <h4>🚫 Environment</h4>
+                <ul>
+                    <li><strong>NO MOVING VEHICLES.</strong></li>
+                    <li>Must be in a quiet area.</li>
+                    <li>You will be removed for distractions.</li>
                 </ul>
             </div>
+
+            <!-- COL 3: ACCESS -->
             <div class="instruction-item">
-                <h4>👕 Dress Code</h4>
+                <h4>🆔 Check-In</h4>
                 <ul>
-                    <li>Blue Jeans (No holes/rips).</li>
-                    <li>Non-Slip Shoes are mandatory.</li>
-                    <li>Plain shirt (if you don't have a uniform yet).</li>
+                    <li>Login with the name on your ID.</li>
+                    <li>Wait with Cam/Mic OFF.</li>
+                    <li><strong>Unknown names = No Entry.</strong></li>
                 </ul>
             </div>
-            <div class="instruction-item">
-                <h4>🚗 Parking</h4>
-                <ul>
-                    <li>Please park in the back of the building.</li>
-                    <li>Enter through the side door marked "Team".</li>
-                </ul>
-            </div>
+        </div>
+        
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee; font-style: italic; color: #666; text-align: center;">
+            "Please notify Mike if you will be joining under a different name."
         </div>
     </div>
 
     <div class="header-controls">
-        <div class="filters">
-            <button class="filter-btn active" onclick="filterClasses('all')">All Classes</button>
-            <button class="filter-btn" onclick="filterClasses('McKinney')">McKinney</button>
-            <button class="filter-btn" onclick="filterClasses('Mesquite')">Mesquite</button>
-        </div>
         <button class="refresh-btn" onclick="fetchClasses()">↻ Refresh Schedule</button>
     </div>
 
     <div id="loading-msg">Loading Schedule...</div>
-    <div class="class-grid" id="class-grid">
-        <!-- CARDS WILL APPEAR HERE -->
-    </div>
+    <div class="class-grid" id="class-grid"></div>
 
     <script>
-        // --- CONFIG ---
-        // REPLACE THIS WITH YOUR GOOGLE SCRIPT URL
+        // REPLACE THIS WITH YOUR NEW SCRIPT URL
         const API_URL = "https://script.google.com/macros/s/AKfycby6rIG-ypTQyyaW7Y274LofCUijS6gh3TLgANGOAT_1PisP7tFPt7o66wNuDUvHRc15/exec";
         
         let allData = [];
@@ -341,59 +317,43 @@
             }
             
             const now = new Date();
-            // Reset "Today" to midnight so we don't accidentally hide today's classes
             const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            
-            // Calculate 2 Weeks Out
             const twoWeeksOut = new Date(todayStart);
             twoWeeksOut.setDate(todayStart.getDate() + 14);
-
-            // Calculate "Yesterday" (for immediate cleanup of old classes)
             const yesterday = new Date(todayStart);
             yesterday.setDate(todayStart.getDate() - 1);
 
-            // --- FILTER & SORT ---
+            // FILTER & SORT
             const processedData = data.filter(cls => {
                 const classDate = new Date(cls.isoDate);
-                
-                // 1. Must be in the future OR today (allow > yesterday)
+                // Must be >= Yesterday AND <= 2 Weeks Out
                 if (classDate < yesterday) return false;
-
-                // 2. Must be within the next 2 weeks
                 if (classDate > twoWeeksOut) return false;
-
                 return true;
-            }).sort((a, b) => {
-                return new Date(a.isoDate) - new Date(b.isoDate);
-            });
+            }).sort((a, b) => new Date(a.isoDate) - new Date(b.isoDate));
 
             if (processedData.length === 0) {
                 grid.innerHTML = '<p style="text-align:center; width:100%;">No classes scheduled for the next 14 days.</p>';
                 return;
             }
 
-            // --- RENDER ---
             processedData.forEach(cls => {
                 const card = document.createElement('div');
                 card.className = `class-card`;
                 
                 const classDate = new Date(cls.isoDate);
-                const dayName = classDate.toLocaleDateString("en-US", { weekday: 'long' });
+                const dayName = classDate.toLocaleDateString("en-US", { weekday: 'long' }); // Shows "Tuesday"
                 const dateStr = classDate.toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
                 const timeStr = classDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
-                // Handle Roster (Expects 'attendees' array in JSON, defaults to empty)
                 const attendees = cls.attendees || [];
-                let rosterHTML = '';
-                if(attendees.length > 0) {
-                    rosterHTML = attendees.map(name => `<li>${formatName(name)}</li>`).join('');
-                } else {
-                    rosterHTML = '<li class="roster-empty">No signups yet</li>';
-                }
+                let rosterHTML = attendees.length > 0 
+                    ? attendees.map(name => `<li>${formatName(name)}</li>`).join('')
+                    : '<li class="roster-empty">No signups yet</li>';
 
                 card.innerHTML = `
                     <div class="card-body">
-                        <span class="class-type-badge">Orientation</span>
+                        <span class="class-type-badge">Virtual Orientation</span>
                         
                         <div class="date-block">
                             <div class="day-box">${dayName}</div>
@@ -402,16 +362,13 @@
 
                         <h3>${cls.name || "NTO Class"}</h3>
                         <div class="details">
-                            <span>📍 ${cls.location}</span>
+                            <span>📹 Google Meet (Virtual)</span>
                             <span>👨‍🏫 Trainer: ${cls.trainer}</span>
                         </div>
 
-                        <!-- ROSTER SECTION -->
                         <div class="roster-box">
                             <span class="roster-header">Who's Going?</span>
-                            <ul class="roster-list">
-                                ${rosterHTML}
-                            </ul>
+                            <ul class="roster-list">${rosterHTML}</ul>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -429,7 +386,7 @@
             });
         }
 
-        // Helper to protect privacy slightly (John Smith -> John S.)
+        // Helper: John Smith -> John S.
         function formatName(fullName) {
             if(!fullName) return "";
             const parts = fullName.split(" ");
@@ -437,18 +394,6 @@
                 return `${parts[0]} ${parts[parts.length-1].charAt(0)}.`;
             }
             return fullName;
-        }
-
-        function filterClasses(location) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-
-            if (location === 'all') {
-                renderClasses(allData);
-            } else {
-                const filtered = allData.filter(c => c.location && c.location.includes(location));
-                renderClasses(filtered);
-            }
         }
 
         function handleSignup(className, classId, btnElement) { 
@@ -465,10 +410,6 @@
             const formData = new URLSearchParams();
             formData.append('name', name);
             formData.append('store', store);
-            formData.append('phone', phone);
-            // 'position' defaulted to NTO for now
-            formData.append('position', 'NTO');       
-            formData.append('className', className);
             formData.append('classId', classId); 
 
             fetch(API_URL, {
@@ -486,12 +427,11 @@
             });
         }
     </script>
-
-    <!-- SLIM FOOTER -->
+    
+    <!-- FOOTER -->
     <div style="text-align: center; padding: 2rem 0; margin-top: 3rem; background-color: var(--dark-blue); color: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; margin-bottom: -2rem;">
         <p style="margin:0; font-size:0.9rem;">&copy; 2026 Team Wow!</p>
     </div>
 
 </body>
-
 </html>
