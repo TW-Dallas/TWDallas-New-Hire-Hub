@@ -306,7 +306,7 @@
         <img src="New_Logo_v2.png" alt="Team Wow Logo" class="logo-img">
     </div>
 
-    <!-- HERO INSTRUCTION BLOCK -->
+       <!-- HERO INSTRUCTION BLOCK -->
     <div class="instructions-hero">
         <h1 class="hero-title">Class Requirements</h1>
         
@@ -350,9 +350,12 @@
             </div>
         </div>
         
-        <!-- ALERT BOX -->
-        <div style="margin-top: 1.5rem; padding: 1rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 4px; text-align: center; font-size: 0.95rem;">
-            <strong>⚠️ IMPORTANT:</strong> If your device does not meet these requirements, or if you will be joining under a different name, you <u>must notify the trainer</u> before class begins.
+        <!-- NEW ALERT BOX WITH YOUR INFO -->
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 4px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>⚠️ IMPORTANT DETAILS:</strong><br>
+            • <strong>Exceptions:</strong> If your device is not compliant or your name differs from your ID, notify the trainer beforehand.<br>
+            • <strong>Time:</strong> Class takes 1 - 1.5 hours. Please plan accordingly.<br>
+            • <strong>Link:</strong> The class link will be emailed to you <u>on the day of class</u>, after enrollment closes.
         </div>
     </div>
 
@@ -445,7 +448,7 @@
                 return;
             }
 
-            processedData.forEach(cls => {
+                        processedData.forEach(cls => {
                 const card = document.createElement('div');
                 card.className = `class-card`;
                 
@@ -454,10 +457,27 @@
                 const dateStr = classDate.toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
                 const timeStr = classDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
+                // --- 2-HOUR DEADLINE LOGIC ---
+                const now = new Date();
+                const deadline = new Date(classDate.getTime() - (2 * 60 * 60 * 1000)); // Subtract 2 hours (in milliseconds)
+                const isClosed = now > deadline;
+
                 const attendees = cls.attendees || [];
                 let rosterHTML = attendees.length > 0 
                     ? attendees.map(name => `<li>${formatName(name)}</li>`).join('')
                     : '<li class="roster-empty">No signups yet</li>';
+
+                // Determine Button State
+                let btnText = "Sign Up";
+                let btnDisabled = false;
+
+                if (isClosed) {
+                    btnText = "Signup Closed";
+                    btnDisabled = true;
+                } else if (cls.spots_taken >= cls.spots_total) {
+                    btnText = "Full";
+                    btnDisabled = true;
+                }
 
                 card.innerHTML = `
                     <div class="card-body">
@@ -485,8 +505,8 @@
                         </div>
                         <button class="signup-btn" 
                                 onclick="openSignupModal('${cls.id}')"
-                                ${cls.spots_taken >= cls.spots_total ? 'disabled' : ''}>
-                            ${cls.spots_taken >= cls.spots_total ? 'Full' : 'Sign Up'}
+                                ${btnDisabled ? 'disabled' : ''}>
+                            ${btnText}
                         </button>
                     </div>
                 `;
@@ -563,5 +583,6 @@
 
 </body>
 </html>
+
 
 
