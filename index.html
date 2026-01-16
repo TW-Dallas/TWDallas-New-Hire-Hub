@@ -15,8 +15,8 @@
             --brand-blue: #0090e2;
             --dark-blue: #005c91;
             --crust-light: #faf2e9;
-            --crust-med: #f0decc;
             --crust-deep: #603913;
+            --crust-med: #f0decc;
         }
 
         body {
@@ -220,11 +220,77 @@
         .signup-btn:disabled { background-color: #ccc; cursor: not-allowed; }
 
         #loading-msg { text-align: center; font-style: italic; color: #666; margin-top: 2rem; }
+
+        /* --- POPUP MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        
+        .modal-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-top: 6px solid var(--brand-blue);
+        }
+        .modal-title {
+            font-family: 'OneDotCd-Bold';
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box; /* Fix padding issues */
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        .btn-cancel {
+            background: #eee;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'OneDotCd-Bold';
+        }
+        .btn-confirm {
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'OneDotCd-Bold';
+        }
+
     </style>
 </head>
 <body>
 
-        <!-- HERO INSTRUCTION BLOCK -->
+    <!-- HERO INSTRUCTION BLOCK -->
     <div class="instructions-hero">
         <h1 class="hero-title">Class Requirements</h1>
         
@@ -268,16 +334,8 @@
             </div>
         </div>
         
-        <!-- NEW ALERT BOX -->
-        <div style="
-            margin-top: 1.5rem; 
-            padding: 1rem; 
-            background-color: #fff3cd; 
-            border: 1px solid #ffeeba; 
-            color: #856404; 
-            border-radius: 4px;
-            text-align: center;
-            font-size: 0.95rem;">
+        <!-- ALERT BOX -->
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 4px; text-align: center; font-size: 0.95rem;">
             <strong>⚠️ IMPORTANT:</strong> If your device does not meet these requirements, or if you will be joining under a different name, you <u>must notify the trainer</u> before class begins.
         </div>
     </div>
@@ -289,11 +347,40 @@
     <div id="loading-msg">Loading Schedule...</div>
     <div class="class-grid" id="class-grid"></div>
 
+    <!-- HIDDEN MODAL -->
+    <div class="modal-overlay" id="signup-modal">
+        <div class="modal-box">
+            <div class="modal-title">Sign Up for Class</div>
+            
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="input-name" placeholder="John Doe">
+            </div>
+            
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="input-phone" placeholder="555-123-4567">
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="input-email" placeholder="john@example.com">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-confirm" id="btn-confirm-signup" onclick="submitSignup()">Confirm Signup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
     <script>
         // REPLACE THIS WITH YOUR NEW SCRIPT URL
         const API_URL = "https://script.google.com/macros/s/AKfycby6rIG-ypTQyyaW7Y274LofCUijS6gh3TLgANGOAT_1PisP7tFPt7o66wNuDUvHRc15/exec";
         
         let allData = [];
+        let selectedClassId = null; // Store ID for modal
 
         window.addEventListener('load', fetchClasses);
 
@@ -330,10 +417,8 @@
             const yesterday = new Date(todayStart);
             yesterday.setDate(todayStart.getDate() - 1);
 
-            // FILTER & SORT
             const processedData = data.filter(cls => {
                 const classDate = new Date(cls.isoDate);
-                // Must be >= Yesterday AND <= 2 Weeks Out
                 if (classDate < yesterday) return false;
                 if (classDate > twoWeeksOut) return false;
                 return true;
@@ -349,7 +434,7 @@
                 card.className = `class-card`;
                 
                 const classDate = new Date(cls.isoDate);
-                const dayName = classDate.toLocaleDateString("en-US", { weekday: 'long' }); // Shows "Tuesday"
+                const dayName = classDate.toLocaleDateString("en-US", { weekday: 'long' });
                 const dateStr = classDate.toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
                 const timeStr = classDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
@@ -383,7 +468,7 @@
                             <span class="slots">${cls.spots_total - cls.spots_taken} Spots Left</span>
                         </div>
                         <button class="signup-btn" 
-                                onclick="handleSignup('${cls.name}', '${cls.id}', this)"
+                                onclick="openSignupModal('${cls.id}')"
                                 ${cls.spots_taken >= cls.spots_total ? 'disabled' : ''}>
                             ${cls.spots_taken >= cls.spots_total ? 'Full' : 'Sign Up'}
                         </button>
@@ -393,7 +478,6 @@
             });
         }
 
-        // Helper: John Smith -> John S.
         function formatName(fullName) {
             if(!fullName) return "";
             const parts = fullName.split(" ");
@@ -403,26 +487,38 @@
             return fullName;
         }
 
-                function handleSignup(className, classId, btnElement) { 
-            const name = prompt("Enter First & Last Name:");
-            if (!name) return;
-            
-            const store = prompt("Enter Store Number:");
-            if (!store) return;
-            
-            const phone = prompt("Enter Phone Number:");
-            if (!phone) return;
+        // --- NEW MODAL FUNCTIONS ---
+        function openSignupModal(classId) {
+            selectedClassId = classId;
+            document.getElementById('signup-modal').classList.add('active');
+            // Clear previous inputs
+            document.getElementById('input-name').value = '';
+            document.getElementById('input-phone').value = '';
+            document.getElementById('input-email').value = '';
+        }
 
-            const email = prompt("Enter Email Address:");
-            if (!email) return;
+        function closeModal() {
+            document.getElementById('signup-modal').classList.remove('active');
+            selectedClassId = null;
+        }
 
-            btnElement.disabled = true;
-            btnElement.innerText = "Processing...";
+        function submitSignup() {
+            const name = document.getElementById('input-name').value;
+            const phone = document.getElementById('input-phone').value;
+            const email = document.getElementById('input-email').value;
+
+            if(!name || !phone || !email) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-confirm-signup');
+            btn.innerText = "Processing...";
+            btn.disabled = true;
 
             const formData = new URLSearchParams();
-            formData.append('classId', classId); 
+            formData.append('classId', selectedClassId); 
             formData.append('name', name);
-            formData.append('store', store);
             formData.append('phone', phone);
             formData.append('email', email);
 
@@ -432,13 +528,14 @@
                 mode: 'no-cors' 
             }).then(() => {
                 alert(`Success! ${name} has been signed up.`);
-                btnElement.innerText = "Signed Up!";
-                // Reload data to update the "Spots Left" count
-                setTimeout(fetchClasses, 1500); 
+                closeModal();
+                btn.innerText = "Confirm Signup";
+                btn.disabled = false;
+                setTimeout(fetchClasses, 1000); // Reload grid
             }).catch(err => {
                 alert("Error signing up.");
-                btnElement.disabled = false;
-                btnElement.innerText = "Sign Up";
+                btn.innerText = "Confirm Signup";
+                btn.disabled = false;
             });
         }
     </script>
@@ -450,6 +547,3 @@
 
 </body>
 </html>
-
-
-
