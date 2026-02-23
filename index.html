@@ -566,18 +566,28 @@
             formData.append('phone', phone);
             formData.append('email', email);
 
+            // We drop 'no-cors' so we can actually read the response text
             fetch(API_URL, {
                 method: "POST",
-                body: formData,
-                mode: 'no-cors' 
-            }).then(() => {
-                alert(`Success! ${name} has been signed up.`);
+                body: formData
+            })
+            .then(response => response.text()) // Read the text from the server
+            .then(text => {
+                if (text === "Pending") {
+                    alert(`Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
+                } else {
+                    // Default Success
+                    alert(`Success! ${name} has been signed up.`);
+                }
+                
                 closeModal();
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
                 setTimeout(fetchClasses, 1000); // Reload grid
-            }).catch(err => {
-                alert("Error signing up.");
+            })
+            .catch(err => {
+                console.error("Submission Error:", err);
+                alert("Error communicating with server. Please try again.");
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
             });
@@ -591,6 +601,7 @@
 
 </body>
 </html>
+
 
 
 
