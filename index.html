@@ -397,6 +397,15 @@
         </div>
     </div>
 
+    <!-- GENERIC MESSAGE MODAL -->
+    <div class="modal-overlay" id="message-modal">
+        <div class="modal-box" style="text-align: center;">
+            <div class="modal-title" id="msg-title">Notification</div>
+            <div class="modal-subtitle" id="msg-body" style="margin: 20px 0; font-size: 1.1rem;"></div>
+            <button class="modal-btn" onclick="closeMessageModal()">OK</button>
+        </div>
+    </div>
+
     <!-- SCRIPT -->
     <script>
         // REPLACE THIS WITH YOUR NEW SCRIPT URL
@@ -552,7 +561,7 @@
             const email = document.getElementById('input-email').value;
 
             if(!name || !phone || !email) {
-                alert("Please fill in all fields.");
+                showMessage("Please fill in all fields.");
                 return;
             }
 
@@ -574,13 +583,12 @@
             .then(response => response.text()) // Read the text from the server
             .then(text => {
                 if (text === "Pending") {
-                    alert(`Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
+                    showMessage(`Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
                 } else {
                     // Default Success
-                    alert(`Success! ${name} has been signed up.`);
-                }
+                    showMessage("Success!", "You have been signed up.");
                 
-                closeModal();
+                closeModal(); // Closes the signup form
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
                 setTimeout(fetchClasses, 1000); // Reload grid
@@ -592,6 +600,17 @@
                 btn.disabled = false;
             });
         }
+
+        function showMessage(title, body) {
+            document.getElementById('msg-title').innerText = title;
+            document.getElementById('msg-body').innerText = body;
+            document.getElementById('message-modal').classList.add('active');
+        }
+        
+        function closeMessageModal() {
+            document.getElementById('message-modal').classList.remove('active');
+        }
+
     </script>
     
     <!-- FOOTER -->
@@ -601,6 +620,7 @@
 
 </body>
 </html>
+
 
 
 
