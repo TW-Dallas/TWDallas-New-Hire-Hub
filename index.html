@@ -584,18 +584,20 @@
             .then(text => {
                 if (text === "Pending") {
                     showMessage(`Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
-                } else {
+               } else {
                     // Default Success
                     showMessage("Success!", "You have been signed up.");
+                } // <--- CLOSE ELSE
                 
-                closeModal(); // Closes the signup form
+                closeModal(); 
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
-                setTimeout(fetchClasses, 1000); // Reload grid
-            })
+                setTimeout(fetchClasses, 1000); 
+            }) // <--- CLOSE THEN
+
             .catch(err => {
                 console.error("Submission Error:", err);
-                alert("Error communicating with server. Please try again.");
+                showMessage("Error communicating with server. Please try again.");
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
             });
@@ -620,6 +622,7 @@
 
 </body>
 </html>
+
 
 
 
