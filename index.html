@@ -298,7 +298,6 @@
             cursor: pointer;
             font-family: 'OneDotCd-Bold';
         }
-
     </style>
 </head>
 <body>
@@ -400,9 +399,9 @@
     <!-- GENERIC MESSAGE MODAL -->
     <div class="modal-overlay" id="message-modal">
         <div class="modal-box" style="text-align: center;">
-            <div class="modal-title" id="msg-title">Notification</div>
-            <div class="modal-subtitle" id="msg-body" style="margin: 20px 0; font-size: 1.1rem;"></div>
-            <button class="btn-confirm" onclick="closeMessageModal()" style="margin-top: 15px; width: 50%; font-size: 1.1rem;">OK</button>
+            <div class="modal-title" id="msg-title" style="margin-bottom: 15px;">Notification</div>
+            <div id="msg-body" style="font-size: 1rem; color: #333; margin-bottom: 25px;"></div>
+            <button class="btn-confirm" onclick="closeMessageModal()" style="font-size: 1.1rem; padding: 10px 30px;">OK</button>
         </div>
     </div>
 
@@ -604,8 +603,8 @@
         }
 
         function showMessage(title, body) {
-            document.getElementById('msg-title').innerText = title;
-            document.getElementById('msg-body').innerText = body;
+            document.getElementById('msg-title').innerText = title || "Notification"; // Default title
+            document.getElementById('msg-body').innerText = body || ""; // Default empty string to avoid "undefined"
             document.getElementById('message-modal').classList.add('active');
         }
         
@@ -622,6 +621,7 @@
 
 </body>
 </html>
+
 
 
 
