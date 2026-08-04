@@ -20,11 +20,34 @@
             --crust-med: #f0decc;
         }
 
+        /* --- STICKY FOOTER FLEXBOX LAYOUT --- */
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'OneDotCd', sans-serif;
             background-color: var(--crust-light);
             color: var(--crust-deep);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Container that pushes the footer to the bottom */
+        .main-wrapper {
+            flex: 1 0 auto;
             padding: 2rem;
+        }
+
+        footer {
+            flex-shrink: 0;
+            background-color: var(--dark-blue);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            width: 100%;
         }
 
         /* LOGO STYLING */
@@ -33,18 +56,18 @@
             margin-bottom: 1.5rem;
         }
         .logo-img {
-            max-width: 250px; /* Adjust size here */
+            max-width: 250px;
             height: auto;
             display: inline-block;
         }
         
         .market-badge {
-            font-size: 1.1rem; /* Nice and readable */
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--dark-blue);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 5px; /* Slight gap from logo */
+            margin-top: 5px;
         }
         
         /* --- HERO INSTRUCTION BLOCK --- */
@@ -100,15 +123,6 @@
         }
         .store-btn:hover { background: #000; }
         .store-btn svg { width: 16px; height: 16px; fill: white; }
-
-        /* HEADER & CONTROLS */
-        .header-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
-            gap: 1rem;
-        }
 
         /* GRID LAYOUT */
         .class-grid {
@@ -273,7 +287,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
-            box-sizing: border-box; /* Fix padding issues */
+            box-sizing: border-box;
         }
         .modal-actions {
             display: flex;
@@ -302,116 +316,122 @@
 </head>
 <body>
 
-    <div class="logo-container">
-        <!-- Replace 'logo.png' with your actual image file or URL -->
-        <img src="New_Logo_v2.png" alt="Team Wow Logo" class="logo-img">
-        <div class="market-badge">DALLAS MARKET</div>
-    </div>
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
 
-       <!-- HERO INSTRUCTION BLOCK -->
-    <div class="instructions-hero">
-        <h1 class="hero-title">Class Requirements</h1>
-        
-        <div class="hero-grid">
-            <!-- COL 1: TECH -->
-            <div class="instruction-item">
-                <h4>💻 Device Policy</h4>
-                <ul>
-                    <li><strong>Laptop/Desktop STRONGLY RECOMMENDED.</strong></li>
-                    <li>Camera & Microphone must be working.</li>
-                    <li>You must remain on camera the entire class.</li>
-                </ul>
-                <div style="margin-top:10px; font-size:0.85rem; color:#666;">Need the App?</div>
-                <div class="app-buttons">
-                    <!-- iOS (Updated Link) -->
-                    <a href="https://apps.apple.com/us/app/google-meet/id1096918571" target="_blank" class="store-btn">
-                        <svg viewBox="0 0 384 512"><path d="M318.7 268.7c25.5-13.3 56.1-51.4 56.1-51.4S323.3 194 286.7 210.6c-48 21.8-88 15.6-88 15.6s29.7-54.3 22.9-106c-8.7-66-88-88-88-88s34.3 64.9-5.1 114.7c-33.3 42.1-118 41.5-118 41.5s52.7 21.9 66.5 54c16 37.3-17.6 117.8-17.6 117.8s50.4-23.9 83.1-61.9c36.2-42.3 35.8-93.7 35.8-93.7s57.2 27.2 81.3 62.8c28.1 41.5-1.1 127.3-1.1 127.3s64.9-38.1 71.9-96c2.8-22.9-6.9-46.7-16.7-62.1z"/></svg> iOS
-                    </a>
-                    <!-- Android (Updated Link - 'Tachyon' is the correct new package) -->
-                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.tachyon" target="_blank" class="store-btn">
-                        <svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg> Android
-                    </a>
+        <div class="logo-container">
+            <img src="New_Logo_v2.png" alt="Team Wow Logo" class="logo-img">
+            <div class="market-badge">DALLAS MARKET</div>
+        </div>
+
+        <!-- HERO INSTRUCTION BLOCK -->
+        <div class="instructions-hero">
+            <h1 class="hero-title">Class Requirements</h1>
+            
+            <div class="hero-grid">
+                <!-- COL 1: TECH -->
+                <div class="instruction-item">
+                    <h4>💻 Device Policy</h4>
+                    <ul>
+                        <li><strong>Laptop/Desktop STRONGLY RECOMMENDED.</strong></li>
+                        <li>Camera & Microphone must be working.</li>
+                        <li>You must remain on camera the entire class.</li>
+                    </ul>
+                    <div style="margin-top:10px; font-size:0.85rem; color:#666;">Need the App?</div>
+                    <div class="app-buttons">
+                        <a href="https://apps.apple.com/us/app/google-meet/id1096918571" target="_blank" class="store-btn">
+                            <svg viewBox="0 0 384 512"><path d="M318.7 268.7c25.5-13.3 56.1-51.4 56.1-51.4S323.3 194 286.7 210.6c-48 21.8-88 15.6-88 15.6s29.7-54.3 22.9-106c-8.7-66-88-88-88-88s34.3 64.9-5.1 114.7c-33.3 42.1-118 41.5-118 41.5s52.7 21.9 66.5 54c16 37.3-17.6 117.8-17.6 117.8s50.4-23.9 83.1-61.9c36.2-42.3 35.8-93.7 35.8-93.7s57.2 27.2 81.3 62.8c28.1 41.5-1.1 127.3-1.1 127.3s64.9-38.1 71.9-96c2.8-22.9-6.9-46.7-16.7-62.1z"/></svg> iOS
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.tachyon" target="_blank" class="store-btn">
+                            <svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg> Android
+                        </a>
+                    </div>
+                </div>
+
+                <!-- COL 2: ENV -->
+                <div class="instruction-item">
+                    <h4>🚫 Environment</h4>
+                    <ul>
+                        <li><strong>NO MOVING VEHICLES.</strong></li>
+                        <li>Must be in a quiet area.</li>
+                        <li>You will be removed for distractions.</li>
+                    </ul>
+                </div>
+
+                <!-- COL 3: ACCESS -->
+                <div class="instruction-item">
+                    <h4>🆔 Check-In</h4>
+                    <ul>
+                        <li>Login with the name on your ID.</li>
+                        <li>Wait with Cam/Mic OFF.</li>
+                        <li><strong>Unknown names = No Entry.</strong></li>
+                    </ul>
                 </div>
             </div>
-
-            <!-- COL 2: ENV -->
-            <div class="instruction-item">
-                <h4>🚫 Environment</h4>
-                <ul>
-                    <li><strong>NO MOVING VEHICLES.</strong></li>
-                    <li>Must be in a quiet area.</li>
-                    <li>You will be removed for distractions.</li>
-                </ul>
-            </div>
-
-            <!-- COL 3: ACCESS -->
-            <div class="instruction-item">
-                <h4>🆔 Check-In</h4>
-                <ul>
-                    <li>Login with the name on your ID.</li>
-                    <li>Wait with Cam/Mic OFF.</li>
-                    <li><strong>Unknown names = No Entry.</strong></li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- UPDATED ALERT BOX -->
-        <div style="margin-top: 1.5rem; padding: 1rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 4px; font-size: 0.95rem; line-height: 1.6;">
-            <strong>⚠️ IMPORTANT DETAILS:</strong><br>
-            • <strong>Exceptions:</strong> If your device is not compliant or your name differs from your ID, notify the trainer beforehand.<br>
-            • <strong>Time:</strong> Class takes 1 - 1.5 hours. Please log in 5-10 minutes before the start time.<br>
-            • <strong>Deadline:</strong> Enrollment closes <u>2 hours before</u> the class begins.<br>
-            • <strong>Link:</strong> Your Google Meet class link will be emailed to you immediately upon signup confirmation.
-        </div>
-
-    </div>
-
-    <div id="loading-msg">Loading Schedule...</div>
-    <div class="class-grid" id="class-grid"></div>
-
-    <!-- HIDDEN MODAL -->
-    <div class="modal-overlay" id="signup-modal">
-        <div class="modal-box">
-            <div class="modal-title">Sign Up for Class</div>
             
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="input-name" placeholder="John Doe">
-            </div>
-            
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input type="tel" id="input-phone" placeholder="555-123-4567">
+            <div style="margin-top: 1.5rem; padding: 1rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; border-radius: 4px; font-size: 0.95rem; line-height: 1.6;">
+                <strong>⚠️ IMPORTANT DETAILS:</strong><br>
+                • <strong>Exceptions:</strong> If your device is not compliant or your name differs from your ID, notify the trainer beforehand.<br>
+                • <strong>Time:</strong> Class takes 1 - 1.5 hours. Please log in 5-10 minutes before the start time.<br>
+                • <strong>Deadline:</strong> Enrollment closes <u>2 hours before</u> the class begins.<br>
+                • <strong>Link:</strong> Your Google Meet class link will be emailed to you immediately upon signup confirmation.
             </div>
 
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="input-email" placeholder="john@example.com">
-            </div>
+        </div>
 
-            <div class="modal-actions">
-                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-                <button class="btn-confirm" id="btn-confirm-signup" onclick="submitSignup()">Confirm Signup</button>
+        <div id="loading-msg">Loading Schedule...</div>
+        <div class="class-grid" id="class-grid"></div>
+
+        <!-- HIDDEN SIGNUP MODAL -->
+        <div class="modal-overlay" id="signup-modal">
+            <div class="modal-box">
+                <div class="modal-title">Sign Up for Class</div>
+                
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="input-name" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="input-phone" placeholder="555-123-4567">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="input-email" placeholder="john@example.com">
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button class="btn-confirm" id="btn-confirm-signup" onclick="submitSignup()">Confirm Signup</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- GENERIC MESSAGE MODAL -->
-    <div class="modal-overlay" id="message-modal">
-        <div class="modal-box" style="text-align: center;">
-            <div class="modal-title" id="msg-title" style="margin-bottom: 15px;">Notification</div>
-            <div id="msg-body" style="font-size: 1rem; color: #333; margin-bottom: 25px;"></div>
-            <button class="btn-confirm" onclick="closeMessageModal()" style="font-size: 1.1rem; padding: 10px 30px;">OK</button>
+        <!-- GENERIC MESSAGE MODAL -->
+        <div class="modal-overlay" id="message-modal">
+            <div class="modal-box" style="text-align: center;">
+                <div class="modal-title" id="msg-title" style="margin-bottom: 15px;">Notification</div>
+                <div id="msg-body" style="font-size: 1rem; color: #333; margin-bottom: 25px;"></div>
+                <button class="btn-confirm" onclick="closeMessageModal()" style="font-size: 1.1rem; padding: 10px 30px;">OK</button>
+            </div>
         </div>
-    </div>
+
+    </div> <!-- END OF MAIN-WRAPPER -->
+
+    <!-- CLEAN STICKY FOOTER -->
+    <footer>
+        <p style="margin:0; font-size:0.9rem;">&copy; 2026 Team Wow!</p>
+    </footer>
 
     <!-- SCRIPT -->
     <script>
-        // REPLACE THIS WITH YOUR NEW SCRIPT URL
+        // REPLACE THIS WITH YOUR NEW EXECUTABLE SCRIPT URL FROM APPS SCRIPT DEPLOYMENT
         const API_URL = "https://script.google.com/macros/s/AKfycby6rIG-ypTQyyaW7Y274LofCUijS6gh3TLgANGOAT_1PisP7tFPt7o66wNuDUvHRc15/exec";
         
         let allData = [];
-        let selectedClassId = null; // Store ID for modal
+        let selectedClassId = null;
 
         window.addEventListener('load', fetchClasses);
 
@@ -420,7 +440,12 @@
             document.getElementById('class-grid').innerHTML = '';
 
             fetch(API_URL)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Server returned status ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     allData = data;
                     renderClasses(data);
@@ -460,7 +485,7 @@
                 return;
             }
 
-                        processedData.forEach(cls => {
+            processedData.forEach(cls => {
                 const card = document.createElement('div');
                 card.className = `class-card`;
                 
@@ -469,9 +494,8 @@
                 const dateStr = classDate.toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
                 const timeStr = classDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
-                // --- 2-HOUR DEADLINE LOGIC ---
                 const now = new Date();
-                const deadline = new Date(classDate.getTime() - (2 * 60 * 60 * 1000)); // Subtract 2 hours (in milliseconds)
+                const deadline = new Date(classDate.getTime() - (2 * 60 * 60 * 1000));
                 const isClosed = now > deadline;
 
                 const attendees = cls.attendees || [];
@@ -479,7 +503,6 @@
                     ? attendees.map(name => `<li>${formatName(name)}</li>`).join('')
                     : '<li class="roster-empty">No signups yet</li>';
 
-                // Determine Button State
                 let btnText = "Sign Up";
                 let btnDisabled = false;
 
@@ -528,22 +551,16 @@
 
         function formatName(fullName) {
             if(!fullName) return "";
-            // 1. Trim spaces from start/end
-            // 2. Split by ANY amount of whitespace (handles double spaces too)
             const parts = fullName.trim().split(/\s+/);
-            
             if(parts.length > 1) {
                 return `${parts[0]} ${parts[parts.length-1].charAt(0)}.`;
             }
-            return parts[0]; // If they only typed "Cher", just show "Cher"
+            return parts[0];
         }
 
-
-        // --- NEW MODAL FUNCTIONS ---
         function openSignupModal(classId) {
             selectedClassId = classId;
             document.getElementById('signup-modal').classList.add('active');
-            // Clear previous inputs
             document.getElementById('input-name').value = '';
             document.getElementById('input-phone').value = '';
             document.getElementById('input-email').value = '';
@@ -574,26 +591,23 @@
             formData.append('phone', phone);
             formData.append('email', email);
 
-            // We drop 'no-cors' so we can actually read the response text
             fetch(API_URL, {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.text()) // Read the text from the server
+            .then(response => response.text())
             .then(text => {
                 if (text === "Pending") {
                     showMessage(`Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
-               } else {
-                    // Default Success
+                } else {
                     showMessage("Success!", "You have been signed up.");
-                } // <--- CLOSE ELSE
+                }
                 
                 closeModal(); 
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
                 setTimeout(fetchClasses, 1000); 
-            }) // <--- CLOSE THEN
-
+            })
             .catch(err => {
                 console.error("Submission Error:", err);
                 showMessage("Error communicating with server. Please try again.");
@@ -603,43 +617,14 @@
         }
 
         function showMessage(title, body) {
-            document.getElementById('msg-title').innerText = title || "Notification"; // Default title
-            document.getElementById('msg-body').innerText = body || ""; // Default empty string to avoid "undefined"
+            document.getElementById('msg-title').innerText = title || "Notification";
+            document.getElementById('msg-body').innerText = body || "";
             document.getElementById('message-modal').classList.add('active');
         }
         
         function closeMessageModal() {
             document.getElementById('message-modal').classList.remove('active');
         }
-
     </script>
-    
-    <!-- FOOTER -->
-    <div style="text-align: center; padding: 2rem 0; margin-top: 3rem; background-color: var(--dark-blue); color: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; margin-bottom: -2rem;">
-        <p style="margin:0; font-size:0.9rem;">&copy; 2026 Team Wow!</p>
-    </div>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
