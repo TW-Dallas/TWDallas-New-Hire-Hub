@@ -413,7 +413,7 @@
         <div class="modal-overlay" id="message-modal">
             <div class="modal-box" style="text-align: center;">
                 <div class="modal-title" id="msg-title" style="margin-bottom: 15px;">Notification</div>
-                <div id="msg-body" style="font-size: 1rem; color: #333; margin-bottom: 25px;"></div>
+                <div id="msg-body" style="font-size: 1rem; color: #333; margin-bottom: 25px; line-height: 1.5;"></div>
                 <button class="btn-confirm" onclick="closeMessageModal()" style="font-size: 1.1rem; padding: 10px 30px;">OK</button>
             </div>
         </div>
@@ -577,7 +577,7 @@
             const email = document.getElementById('input-email').value;
 
             if(!name || !phone || !email) {
-                showMessage("Please fill in all fields.");
+                showMessage("Missing Information", "Please fill in all fields.");
                 return;
             }
 
@@ -598,9 +598,9 @@
             .then(response => response.text())
             .then(text => {
                 if (text === "Pending") {
-                    showMessage(`Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
+                    showMessage("Pending Approval", `Request Received.\n\n${name} has registered previously. This signup is currently PENDING trainer approval and will not appear on the roster until reviewed.`);
                 } else {
-                    showMessage("Success!", "You have been signed up.");
+                    showMessage("You're Registered! 🎉", `You have been successfully signed up for class!\n\nPlease check your email (${email}) for your Google Meet video call link and class instructions.\n\n(If you don't see it within a few minutes, please check your spam or junk folder.)`);
                 }
                 
                 closeModal(); 
@@ -610,7 +610,7 @@
             })
             .catch(err => {
                 console.error("Submission Error:", err);
-                showMessage("Error communicating with server. Please try again.");
+                showMessage("Communication Error", "Error communicating with server. Please try again.");
                 btn.innerText = "Confirm Signup";
                 btn.disabled = false;
             });
@@ -618,7 +618,7 @@
 
         function showMessage(title, body) {
             document.getElementById('msg-title').innerText = title || "Notification";
-            document.getElementById('msg-body').innerText = body || "";
+            document.getElementById('msg-body').innerHTML = (body || "").replace(/\n/g, '<br>');
             document.getElementById('message-modal').classList.add('active');
         }
         
